@@ -22,7 +22,7 @@ public class ImagePage extends WebPage
   @Override
   public void parseParameters() throws Exception
   {
-    _image=ParameterFinder.getStringParameter(_parameters,"NAME","myImage");
+    _image=ParameterFinder.getStringParameter(_request,"NAME","myImage");
   }
 
   @Override
