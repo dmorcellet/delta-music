@@ -19,7 +19,7 @@ public class Song extends DataObject<Song>
     return CLASS_NAME;
   }
 
-  public Song(long primaryKey, ObjectSource<Song> source)
+  public Song(Long primaryKey, ObjectSource<Song> source)
   {
     super(primaryKey,source);
   }

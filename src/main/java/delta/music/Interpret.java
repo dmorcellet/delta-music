@@ -17,7 +17,7 @@ public class Interpret extends DataObject<Interpret>
     return CLASS_NAME;
   }
 
-  public Interpret(long primaryKey, ObjectSource<Interpret> source)
+  public Interpret(Long primaryKey, ObjectSource<Interpret> source)
   {
     super(primaryKey,source);
   }

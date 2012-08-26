@@ -65,8 +65,10 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
     n++;
     DataProxy<Interpret> interpretProxy=null;
     long interpretKey=rs.getLong(n);
-    if (!rs.wasNull()) interpretProxy=new DataProxy<Interpret>(interpretKey,
-        _mainDataSource.getInterpretDataSource());
+    if (!rs.wasNull())
+    {
+      interpretProxy=new DataProxy<Interpret>(Long.valueOf(interpretKey),_mainDataSource.getInterpretDataSource());
+    }
     album.setInterpretProxy(interpretProxy);
     n++;
   }
@@ -104,7 +106,7 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
   }
 
   @Override
-  public Album getByPrimaryKey(long primaryKey)
+  public Album getByPrimaryKey(Long primaryKey)
   {
     Connection connection=getConnection();
     synchronized (connection)
@@ -113,7 +115,7 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
       ResultSet rs=null;
       try
       {
-        _psGetByPrimaryKey.setLong(1,primaryKey);
+        _psGetByPrimaryKey.setLong(1,primaryKey.longValue());
         rs=_psGetByPrimaryKey.executeQuery();
         if (rs.next())
         {
@@ -143,25 +145,30 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
       try
       {
         int n=1;
-        long key=album.getPrimaryKey();
-        if (key==0) _psInsert.setNull(n,Types.INTEGER);
-        else _psInsert.setLong(n,key);
+        Long key=album.getPrimaryKey();
+        if (key==null) _psInsert.setNull(n,Types.INTEGER);
+        else _psInsert.setLong(n,key.longValue());
         n++;
         _psInsert.setString(n,album.getTitle());
         n++;
         _psInsert.setString(n,album.getImage());
         n++;
         DataProxy<Interpret> interpretProxy=album.getInterpretProxy();
-        if (interpretProxy!=null) _psInsert.setLong(n,interpretProxy
-            .getPrimaryKey());
-        else _psInsert.setNull(n,Types.INTEGER);
+        if (interpretProxy!=null)
+        {
+          _psInsert.setLong(n,interpretProxy.getPrimaryKey().longValue());
+        }
+        else
+        {
+          _psInsert.setNull(n,Types.INTEGER);
+        }
         n++;
         _psInsert.executeUpdate();
         ResultSet rs=_psInsert.getGeneratedKeys();
         if (rs.next())
         {
           long primaryKey=rs.getLong(1);
-          album.setPrimaryKey(primaryKey);
+          album.setPrimaryKey(Long.valueOf(primaryKey));
         }
       }
       catch (SQLException sqlException)
@@ -172,7 +179,7 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
     }
   }
 
-  public List<Long> getFromInterpret(long primaryKey)
+  public List<Long> getFromInterpret(Long primaryKey)
   {
     Connection connection=getConnection();
     synchronized (connection)
@@ -182,7 +189,7 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
       ResultSet rs=null;
       try
       {
-        _psGetFromInterpret.setLong(1,primaryKey);
+        _psGetFromInterpret.setLong(1,primaryKey.longValue());
         rs=_psGetFromInterpret.executeQuery();
         while (rs.next())
         {
@@ -204,7 +211,7 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
   }
 
   @Override
-  public List<Long> getRelatedObjectIDs(String relationName, long primaryKey)
+  public List<Long> getRelatedObjectIDs(String relationName, Long primaryKey)
   {
     List<Long> ret=new ArrayList<Long>();
     if (relationName.equals(Album.ALBUMS_RELATION))

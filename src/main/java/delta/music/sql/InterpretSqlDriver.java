@@ -95,7 +95,7 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
   }
 
   @Override
-  public Interpret getByPrimaryKey(long primaryKey)
+  public Interpret getByPrimaryKey(Long primaryKey)
   {
     Connection connection=getConnection();
     synchronized (connection)
@@ -104,7 +104,7 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
       ResultSet rs=null;
       try
       {
-        _psGetByPrimaryKey.setLong(1,primaryKey);
+        _psGetByPrimaryKey.setLong(1,primaryKey.longValue());
         rs=_psGetByPrimaryKey.executeQuery();
         if (rs.next())
         {
@@ -134,9 +134,9 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
       try
       {
         int n=1;
-        long key=interpret.getPrimaryKey();
-        if (key==0) _psInsert.setNull(n,Types.INTEGER);
-        else _psInsert.setLong(n,key);
+        Long key=interpret.getPrimaryKey();
+        if (key==null) _psInsert.setNull(n,Types.INTEGER);
+        else _psInsert.setLong(n,key.longValue());
         n++;
         _psInsert.setString(n,interpret.getName());
         n++;
@@ -145,7 +145,7 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
         if (rs.next())
         {
           long primaryKey=rs.getLong(1);
-          interpret.setPrimaryKey(primaryKey);
+          interpret.setPrimaryKey(Long.valueOf(primaryKey));
         }
       }
       catch (SQLException sqlException)

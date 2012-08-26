@@ -73,7 +73,7 @@ public class LPFileParser
       return;
     }
 
-    Album a=new Album(0,source.getAlbumDataSource());
+    Album a=new Album(null,source.getAlbumDataSource());
     a.setTitle(lpTitle);
     List<Interpret> iList=source.getInterpretDataSource().loadObjectSet(Interpret.NAME_SET,new Object[]{interpretName});
     if ((iList!=null) && (iList.size()>0))
@@ -83,7 +83,7 @@ public class LPFileParser
     }
     else
     {
-      Interpret interpret=new Interpret(0,source.getInterpretDataSource());
+      Interpret interpret=new Interpret(null,source.getInterpretDataSource());
       interpret.setName(interpretName);
       source.getInterpretDataSource().create(interpret);
       a.setInterpretProxy(new DataProxy<Interpret>(interpret.getPrimaryKey(),source.getInterpretDataSource()));
@@ -112,7 +112,7 @@ public class LPFileParser
       {
         if(currentSong!=null)
         {
-          Song song=new Song(0,source.getSongDataSource());
+          Song song=new Song(null,source.getSongDataSource());
           song.setName(currentSong);
           song.setText(text_l.toString());
           song.setAlbumProxy(new DataProxy<Album>(a.getPrimaryKey(),source.getAlbumDataSource()));

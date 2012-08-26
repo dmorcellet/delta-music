@@ -20,7 +20,7 @@ public class Album extends DataObject<Album>
     return CLASS_NAME;
   }
 
-  public Album(long primaryKey, ObjectSource<Album> source)
+  public Album(Long primaryKey, ObjectSource<Album> source)
   {
     super(primaryKey,source);
   }

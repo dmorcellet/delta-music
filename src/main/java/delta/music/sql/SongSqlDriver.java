@@ -63,7 +63,7 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
     long albumKey=rs.getLong(n);
     if (!rs.wasNull())
     {
-      albumProxy=new DataProxy<Album>(albumKey,_mainDataSource.getAlbumDataSource());
+      albumProxy=new DataProxy<Album>(Long.valueOf(albumKey),_mainDataSource.getAlbumDataSource());
     }
     song.setAlbumProxy(albumProxy);
     n++;
@@ -87,7 +87,8 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
         rs=_psGetAll.executeQuery();
         while (rs.next())
         {
-          song=new Song(rs.getLong(1),_mainDataSource.getSongDataSource());
+          long key=rs.getLong(1);
+          song=new Song(Long.valueOf(key),_mainDataSource.getSongDataSource());
           fillSong(song,rs);
           ret.add(song);
         }
@@ -106,7 +107,7 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
   }
 
   @Override
-  public Song getByPrimaryKey(long primaryKey)
+  public Song getByPrimaryKey(Long primaryKey)
   {
     Connection connection=getConnection();
     synchronized (connection)
@@ -115,7 +116,7 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
       ResultSet rs=null;
       try
       {
-        _psGetByPrimaryKey.setLong(1,primaryKey);
+        _psGetByPrimaryKey.setLong(1,primaryKey.longValue());
         rs=_psGetByPrimaryKey.executeQuery();
         if (rs.next())
         {
@@ -145,12 +146,12 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
       try
       {
         int n=1;
-        long key=song.getPrimaryKey();
-        if (key==0) _psInsert.setNull(n,Types.INTEGER);
-        else _psInsert.setLong(n,key);
+        Long key=song.getPrimaryKey();
+        if (key==null) _psInsert.setNull(n,Types.INTEGER);
+        else _psInsert.setLong(n,key.longValue());
         n++;
         DataProxy<Album> albumProxy=song.getAlbumProxy();
-        if (albumProxy!=null) _psInsert.setLong(n,albumProxy.getPrimaryKey());
+        if (albumProxy!=null) _psInsert.setLong(n,albumProxy.getPrimaryKey().longValue());
         else _psInsert.setNull(n,Types.INTEGER);
         n++;
         _psInsert.setString(n,song.getName());
@@ -162,7 +163,7 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
         if (rs.next())
         {
           long primaryKey=rs.getLong(1);
-          song.setPrimaryKey(primaryKey);
+          song.setPrimaryKey(Long.valueOf(primaryKey));
         }
       }
       catch (SQLException sqlException)
@@ -205,7 +206,7 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
   }
 
   @Override
-  public List<Long> getRelatedObjectIDs(String relationName, long primaryKey)
+  public List<Long> getRelatedObjectIDs(String relationName, Long primaryKey)
   {
     List<Long> ret=new ArrayList<Long>();
     if (relationName.equals(Song.SONGS_RELATION))
