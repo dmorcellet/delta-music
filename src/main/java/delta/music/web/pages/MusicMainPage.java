@@ -3,7 +3,7 @@ package delta.music.web.pages;
 import java.io.PrintWriter;
 import java.util.List;
 
-import delta.common.framework.objects.data.ObjectSource;
+import delta.common.framework.objects.data.ObjectsManager;
 import delta.common.framework.web.WebPage;
 import delta.common.framework.web.WebPageTools;
 import delta.music.Interpret;
@@ -16,7 +16,7 @@ public class MusicMainPage extends WebPage
   @Override
   public void fetchData() throws Exception
   {
-    ObjectSource<Interpret> dsInterpret=MusicDataSource.getInstance().getInterpretDataSource();
+    ObjectsManager<Interpret> dsInterpret=MusicDataSource.getInstance().getInterpretDataSource();
     _interprets=dsInterpret.loadAll();
   }
 

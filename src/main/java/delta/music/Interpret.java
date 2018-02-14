@@ -1,7 +1,6 @@
 package delta.music;
 
 import delta.common.framework.objects.data.DataObject;
-import delta.common.framework.objects.data.ObjectSource;
 
 public class Interpret extends DataObject<Interpret>
 {
@@ -17,9 +16,10 @@ public class Interpret extends DataObject<Interpret>
     return CLASS_NAME;
   }
 
-  public Interpret(Long primaryKey, ObjectSource<Interpret> source)
+  public Interpret(Long primaryKey)
   {
-    super(primaryKey,source);
+    super();
+    setPrimaryKey(primaryKey);
   }
 
   public String getName()

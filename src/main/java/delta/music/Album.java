@@ -2,7 +2,7 @@ package delta.music;
 
 import delta.common.framework.objects.data.DataObject;
 import delta.common.framework.objects.data.DataProxy;
-import delta.common.framework.objects.data.ObjectSource;
+import delta.common.framework.objects.data.ObjectsSource;
 
 public class Album extends DataObject<Album>
 {
@@ -20,9 +20,10 @@ public class Album extends DataObject<Album>
     return CLASS_NAME;
   }
 
-  public Album(Long primaryKey, ObjectSource<Album> source)
+  public Album(Long primaryKey)
   {
-    super(primaryKey,source);
+    super();
+    setPrimaryKey(primaryKey);
   }
 
   public DataProxy<Interpret> getInterpretProxy()

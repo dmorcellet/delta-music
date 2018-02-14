@@ -2,7 +2,7 @@ package delta.music.web.pages;
 
 import java.io.PrintWriter;
 
-import delta.common.framework.objects.data.ObjectSource;
+import delta.common.framework.objects.data.ObjectsManager;
 import delta.common.framework.web.WebPage;
 import delta.common.framework.web.WebPageTools;
 import delta.common.utils.ParameterFinder;
@@ -22,13 +22,13 @@ public class SongPage extends WebPage
   @Override
   public void parseParameters() throws Exception
   {
-    _key=ParameterFinder.getLongParameter(_request,"KEY",76);
+    _key=ParameterFinder.getLongParameter(_request,"KEY",Long.valueOf(76));
   }
 
   @Override
   public void fetchData() throws Exception
   {
-    ObjectSource<Song> dsSong=MusicDataSource.getInstance().getSongDataSource();
+    ObjectsManager<Song> dsSong=MusicDataSource.getInstance().getSongDataSource();
     _song=dsSong.load(_key);
     _album=_song.getAlbum();
     _interpret=_album.getInterpret();

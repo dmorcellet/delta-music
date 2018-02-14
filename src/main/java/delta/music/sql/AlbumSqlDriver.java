@@ -87,7 +87,7 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
         rs=_psGetAll.executeQuery();
         while (rs.next())
         {
-          album=new Album(rs.getLong(1),_mainDataSource.getAlbumDataSource());
+          album=new Album(rs.getLong(1));
           fillAlbum(album,rs);
           ret.add(album);
         }
@@ -119,7 +119,7 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
         rs=_psGetByPrimaryKey.executeQuery();
         if (rs.next())
         {
-          ret=new Album(primaryKey,_mainDataSource.getAlbumDataSource());
+          ret=new Album(primaryKey);
           fillAlbum(ret,rs);
         }
       }

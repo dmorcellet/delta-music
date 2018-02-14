@@ -75,8 +75,7 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
         rs=_psGetAll.executeQuery();
         while (rs.next())
         {
-          interpret=new Interpret(rs.getLong(1),_mainDataSource
-              .getInterpretDataSource());
+          interpret=new Interpret(rs.getLong(1));
           fillInterpret(interpret,rs);
           ret.add(interpret);
         }
@@ -108,7 +107,7 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
         rs=_psGetByPrimaryKey.executeQuery();
         if (rs.next())
         {
-          ret=new Interpret(primaryKey,_mainDataSource.getInterpretDataSource());
+          ret=new Interpret(primaryKey);
           fillInterpret(ret,rs);
         }
       }

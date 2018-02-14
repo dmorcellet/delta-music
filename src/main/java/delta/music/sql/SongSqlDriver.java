@@ -88,7 +88,7 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
         while (rs.next())
         {
           long key=rs.getLong(1);
-          song=new Song(Long.valueOf(key),_mainDataSource.getSongDataSource());
+          song=new Song(Long.valueOf(key));
           fillSong(song,rs);
           ret.add(song);
         }
@@ -120,7 +120,7 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
         rs=_psGetByPrimaryKey.executeQuery();
         if (rs.next())
         {
-          ret=new Song(primaryKey,_mainDataSource.getSongDataSource());
+          ret=new Song(primaryKey);
           fillSong(ret,rs);
         }
       }

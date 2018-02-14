@@ -2,7 +2,6 @@ package delta.music;
 
 import delta.common.framework.objects.data.DataObject;
 import delta.common.framework.objects.data.DataProxy;
-import delta.common.framework.objects.data.ObjectSource;
 
 public class Song extends DataObject<Song>
 {
@@ -19,9 +18,10 @@ public class Song extends DataObject<Song>
     return CLASS_NAME;
   }
 
-  public Song(Long primaryKey, ObjectSource<Song> source)
+  public Song(Long primaryKey)
   {
-    super(primaryKey,source);
+    super();
+    setPrimaryKey(primaryKey);
   }
 
   public String getName()

@@ -2,7 +2,7 @@ package delta.music;
 
 import org.apache.log4j.Logger;
 
-import delta.common.framework.objects.data.ObjectSource;
+import delta.common.framework.objects.data.ObjectsManager;
 import delta.music.sql.MusicSqlDriver;
 import delta.music.utils.MusicLoggers;
 
@@ -10,9 +10,9 @@ public class MusicDataSource
 {
   private static final Logger _logger=MusicLoggers.getMusicLogger();
 
-  private ObjectSource<Album> _albumDataSource;
-  private ObjectSource<Song> _songDataSource;
-  private ObjectSource<Interpret> _interpretDataSource;
+  private ObjectsManager<Album> _albumDataSource;
+  private ObjectsManager<Song> _songDataSource;
+  private ObjectsManager<Interpret> _interpretDataSource;
 
   private static MusicDataSource _instance;
 
@@ -36,9 +36,12 @@ public class MusicDataSource
     {
       MusicSqlDriver driver=MusicSqlDriver.getInstance(this);
 
-      _albumDataSource=new ObjectSource<Album>(driver.getAlbumDriver());
-      _songDataSource=new ObjectSource<Song>(driver.getSongDriver());
-      _interpretDataSource=new ObjectSource<Interpret>(driver.getInterpretDriver());
+      _albumDataSource=new ObjectsManager<Album>();
+      _albumDataSource.setDriver(driver.getAlbumDriver());
+      _songDataSource=new ObjectsManager<Song>();
+      _songDataSource.setDriver(driver.getSongDriver());
+      _interpretDataSource=new ObjectsManager<Interpret>();
+      _interpretDataSource.setDriver(driver.getInterpretDriver());
     }
     catch(Exception e)
     {
@@ -46,17 +49,17 @@ public class MusicDataSource
     }
   }
 
-  public ObjectSource<Album> getAlbumDataSource()
+  public ObjectsManager<Album> getAlbumDataSource()
   {
     return _albumDataSource;
   }
 
-  public ObjectSource<Song> getSongDataSource()
+  public ObjectsManager<Song> getSongDataSource()
   {
     return _songDataSource;
   }
 
-  public ObjectSource<Interpret> getInterpretDataSource()
+  public ObjectsManager<Interpret> getInterpretDataSource()
   {
     return _interpretDataSource;
   }
