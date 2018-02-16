@@ -43,7 +43,8 @@ public class SongPage extends WebPage
     pw.print(title);
     pw.println("</H1>");
     String text=_song.getText();
-    text=text.replaceAll(EndOfLine.NATIVE_EOL, "<BR>"+EndOfLine.NATIVE_EOL);
+    text=text.replaceAll(EndOfLine.WINDOWS.getValue(), "<BR>"+EndOfLine.NATIVE_EOL);
+    text=text.replaceAll(EndOfLine.UNIX.getValue(), "<BR>"+EndOfLine.NATIVE_EOL);
     pw.print(text);
     pw.println("<HR>");
     pw.print("<A HREF=\"");
