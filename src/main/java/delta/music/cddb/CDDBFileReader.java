@@ -10,21 +10,33 @@ import delta.common.utils.files.iterator.AbstractFileIteratorCallback;
 import delta.common.utils.files.iterator.FileIterator;
 import delta.common.utils.files.iterator.FileIteratorCallback;
 
+/**
+ * A reader for CDDB database files.
+ * @author DAM
+ */
 public class CDDBFileReader
 {
-  public static final String TRACK_FRAME_OFFSETS="# Track frame offsets:";
-  public static final String DISCID="DISCID=";
-  public static final String DTITLE="DTITLE=";
-  public static final String DYEAR="DYEAR=";
-  public static final String TTITLE="TTITLE";
-  public static final String PLAYORDER="PLAYORDER";
+  private static final String TRACK_FRAME_OFFSETS="# Track frame offsets:";
+  private static final String DISCID="DISCID=";
+  private static final String DTITLE="DTITLE=";
+  //private static final String DYEAR="DYEAR=";
+  private static final String TTITLE="TTITLE";
+  private static final String PLAYORDER="PLAYORDER";
 
   private File _f;
+
+  /**
+   * Constructor.
+   * @param f
+   */
   public CDDBFileReader(File f)
   {
     _f=f;
   }
 
+  /**
+   * Read file.
+   */
   public void read()
   {
     TextFileReader fp=new TextFileReader(_f);
@@ -95,6 +107,10 @@ public class CDDBFileReader
     //System.out.println("Nb albums dans fichiers : "+nb);
   }
 
+  /**
+   * Main method for this class.
+   * @param args Not used.
+   */
   public static void main(String[] args)
   {
     File f=new File("C:\\dada\\atrier\\cddb\\freedb-win-20050605\\rock");
@@ -103,7 +119,6 @@ public class CDDBFileReader
       @Override
       public void handleFile(File absolute, File relative)
       {
-        //System.out.println("Fichier : "+f.getAbsolutePath());
         new CDDBFileReader(absolute).read();
       }
     };

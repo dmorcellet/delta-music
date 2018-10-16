@@ -19,6 +19,10 @@ import delta.music.Interpret;
 import delta.music.MusicDataSource;
 import delta.music.utils.MusicLoggers;
 
+/**
+ * SQL driver for albums.
+ * @author DAM
+ */
 public class AlbumSqlDriver extends ObjectSqlDriver<Album>
 {
   private static final Logger _logger=MusicLoggers.getMusicSqlLogger();
@@ -29,6 +33,10 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
   private PreparedStatement _psGetFromInterpret;
   private MusicDataSource _mainDataSource;
 
+  /**
+   * Constructor.
+   * @param mainDataSource Parent data source.
+   */
   AlbumSqlDriver(MusicDataSource mainDataSource)
   {
     _mainDataSource=mainDataSource;
@@ -87,7 +95,7 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
         rs=_psGetAll.executeQuery();
         while (rs.next())
         {
-          album=new Album(rs.getLong(1));
+          album=new Album(Long.valueOf(rs.getLong(1)));
           fillAlbum(album,rs);
           ret.add(album);
         }
@@ -179,7 +187,13 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
     }
   }
 
-  public List<Long> getFromInterpret(Long primaryKey)
+  /**
+   * Get the primary keys of the albums from the interpret
+   * designated by the given primary key.
+   * @param interpretPrimaryKey Primary of the album to use.
+   * @return A possibly empty, but not <code>null</code> list of song primary keys.
+   */
+  public List<Long> getFromInterpret(Long interpretPrimaryKey)
   {
     Connection connection=getConnection();
     synchronized (connection)
@@ -189,7 +203,7 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
       ResultSet rs=null;
       try
       {
-        _psGetFromInterpret.setLong(1,primaryKey.longValue());
+        _psGetFromInterpret.setLong(1,interpretPrimaryKey.longValue());
         rs=_psGetFromInterpret.executeQuery();
         while (rs.next())
         {

@@ -10,6 +10,10 @@ import delta.common.framework.objects.sql.DatabaseType;
 import delta.music.MusicDataSource;
 import delta.music.utils.MusicLoggers;
 
+/**
+ * SQL driver for a music database.
+ * @author DAM
+ */
 public class MusicSqlDriver
 {
   private static final Logger _logger=MusicLoggers.getMusicSqlLogger();
@@ -21,6 +25,11 @@ public class MusicSqlDriver
 
   private static MusicSqlDriver _instance;
 
+  /**
+   * Get the sole instance of this class.
+   * @param mainDataSource Data source to use.
+   * @return the sole instance of this class.
+   */
   public static MusicSqlDriver getInstance(MusicDataSource mainDataSource)
   {
     if (_instance==null)
@@ -62,21 +71,36 @@ public class MusicSqlDriver
     _songDriver.setConnection(_dbConnection,dbType);
   }
 
+  /**
+   * Get the SQL driver for albums.
+   * @return the SQL driver for albums.
+   */
   public AlbumSqlDriver getAlbumDriver()
   {
     return _albumDriver;
   }
 
+  /**
+   * Get the SQL driver for interprets.
+   * @return the SQL driver for interprets.
+   */
   public InterpretSqlDriver getInterpretDriver()
   {
     return _interpretDriver;
   }
 
+  /**
+   * Get the SQL driver for songs.
+   * @return the SQL driver for songs.
+   */
   public SongSqlDriver getSongDriver()
   {
     return _songDriver;
   }
 
+  /**
+   * Close all managed resources.
+   */
   public void close()
   {
     if (_dbConnection!=null)

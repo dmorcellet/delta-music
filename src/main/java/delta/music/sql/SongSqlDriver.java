@@ -19,6 +19,10 @@ import delta.music.MusicDataSource;
 import delta.music.Song;
 import delta.music.utils.MusicLoggers;
 
+/**
+ * SQL driver for songs.
+ * @author DAM
+ */
 public class SongSqlDriver extends ObjectSqlDriver<Song>
 {
   private static final Logger _logger=MusicLoggers.getMusicSqlLogger();
@@ -29,7 +33,11 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
   private PreparedStatement _psGetFromAlbum;
   private MusicDataSource _mainDataSource;
 
-  public SongSqlDriver(MusicDataSource mainDataSource)
+  /**
+   * Constructor.
+   * @param mainDataSource Parent data source.
+   */
+  SongSqlDriver(MusicDataSource mainDataSource)
   {
     _mainDataSource=mainDataSource;
   }
@@ -174,7 +182,13 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
     }
   }
 
-  public List<Long> getFromAlbum(long primaryKey)
+  /**
+   * Get the primary keys of the songs that are included in the
+   * album designated by the given primary key.
+   * @param albumPrimaryKey Primary of the album to use.
+   * @return A possibly empty, but not <code>null</code> list of song primary keys.
+   */
+  public List<Long> getFromAlbum(long albumPrimaryKey)
   {
     Connection connection=getConnection();
     synchronized (connection)
@@ -184,7 +198,7 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
       ResultSet rs=null;
       try
       {
-        _psGetFromAlbum.setLong(1,primaryKey);
+        _psGetFromAlbum.setLong(1,albumPrimaryKey);
         rs=_psGetFromAlbum.executeQuery();
         while (rs.next())
         {
@@ -211,7 +225,7 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
     List<Long> ret=new ArrayList<Long>();
     if (relationName.equals(Song.SONGS_RELATION))
     {
-      ret=getFromAlbum(primaryKey);
+      ret=getFromAlbum(primaryKey.longValue());
     }
     return ret;
   }

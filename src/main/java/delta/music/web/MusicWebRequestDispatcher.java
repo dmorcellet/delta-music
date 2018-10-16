@@ -12,8 +12,15 @@ import delta.music.web.pages.MusicMainPageParameters;
 import delta.music.web.pages.SongPage;
 import delta.music.web.pages.SongPageParameters;
 
+/**
+ * Web requests dispatcher for the 'music' web application.
+ * @author DAM
+ */
 public class MusicWebRequestDispatcher extends WebRequestDispatcher
 {
+  /**
+   * Constructor.
+   */
   public MusicWebRequestDispatcher()
   {
     super();

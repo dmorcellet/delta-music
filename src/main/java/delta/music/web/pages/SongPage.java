@@ -12,6 +12,10 @@ import delta.music.Interpret;
 import delta.music.MusicDataSource;
 import delta.music.Song;
 
+/**
+ * Builder for the 'song' HTML page.
+ * @author DAM
+ */
 public class SongPage extends WebPage
 {
   private long _key;
@@ -22,14 +26,14 @@ public class SongPage extends WebPage
   @Override
   public void parseParameters() throws Exception
   {
-    _key=ParameterFinder.getLongParameter(_request,"KEY",Long.valueOf(76));
+    _key=ParameterFinder.getLongParameter(_request,"KEY",Long.valueOf(76)).longValue();
   }
 
   @Override
   public void fetchData() throws Exception
   {
     ObjectsManager<Song> dsSong=MusicDataSource.getInstance().getSongDataSource();
-    _song=dsSong.load(_key);
+    _song=dsSong.load(Long.valueOf(_key));
     _album=_song.getAlbum();
     _interpret=_album.getInterpret();
   }
@@ -54,7 +58,7 @@ public class SongPage extends WebPage
     if (_interpret!=null)
     {
       pw.print("<A HREF=\"");
-      InterpretPageParameters interpretPage=new InterpretPageParameters(_interpret.getPrimaryKey());
+      InterpretPageParameters interpretPage=new InterpretPageParameters(_interpret.getPrimaryKey().longValue());
       pw.print(interpretPage.build());
       pw.print("\">");
       pw.print(_interpret.getName());
@@ -63,7 +67,7 @@ public class SongPage extends WebPage
     pw.print("<A HREF=\"");
     if (_album!=null)
     {
-      AlbumPageParameters albumPage=new AlbumPageParameters(_album.getPrimaryKey());
+      AlbumPageParameters albumPage=new AlbumPageParameters(_album.getPrimaryKey().longValue());
       pw.print(albumPage.build());
       pw.print("\">");
       pw.print(_album.getTitle());

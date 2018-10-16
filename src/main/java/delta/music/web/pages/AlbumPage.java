@@ -12,6 +12,10 @@ import delta.music.Interpret;
 import delta.music.MusicDataSource;
 import delta.music.Song;
 
+/**
+ * Builder for the 'album' HTML page.
+ * @author DAM
+ */
 public class AlbumPage extends WebPage
 {
   private Long _key;
@@ -70,7 +74,7 @@ public class AlbumPage extends WebPage
     {
       song=_songs.get(i);
       pw.print("<LI><A HREF=\"");
-      SongPageParameters songPage=new SongPageParameters(song.getPrimaryKey());
+      SongPageParameters songPage=new SongPageParameters(song.getPrimaryKey().longValue());
       pw.print(songPage.build());
       pw.print("\">");
       pw.print(song.getName());
@@ -86,7 +90,7 @@ public class AlbumPage extends WebPage
     if (_interpret!=null)
     {
       pw.print("<A HREF=\"");
-      InterpretPageParameters interpretPage=new InterpretPageParameters(_interpret.getPrimaryKey());
+      InterpretPageParameters interpretPage=new InterpretPageParameters(_interpret.getPrimaryKey().longValue());
       pw.print(interpretPage.build());
       pw.print("\">");
       pw.print(_interpret.getName());

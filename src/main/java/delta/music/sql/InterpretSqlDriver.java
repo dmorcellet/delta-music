@@ -17,6 +17,10 @@ import delta.music.Interpret;
 import delta.music.MusicDataSource;
 import delta.music.utils.MusicLoggers;
 
+/**
+ * SQL driver for interprets.
+ * @author DAM
+ */
 public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
 {
   private static final Logger _logger=MusicLoggers.getMusicSqlLogger();
@@ -25,11 +29,15 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
   private PreparedStatement _psGetAll;
   private PreparedStatement _psInsert;
   private PreparedStatement _psGetByName;
-  private MusicDataSource _mainDataSource;
+  //private MusicDataSource _mainDataSource;
 
+  /**
+   * Constructor.
+   * @param mainDataSource Parent data source.
+   */
   InterpretSqlDriver(MusicDataSource mainDataSource)
   {
-    _mainDataSource=mainDataSource;
+    //_mainDataSource=mainDataSource;
   }
 
   @Override
@@ -75,7 +83,7 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
         rs=_psGetAll.executeQuery();
         while (rs.next())
         {
-          interpret=new Interpret(rs.getLong(1));
+          interpret=new Interpret(Long.valueOf(rs.getLong(1)));
           fillInterpret(interpret,rs);
           ret.add(interpret);
         }
@@ -155,6 +163,11 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
     }
   }
 
+  /**
+   * Get the primary keys of the interprets designated by the given name.
+   * @param name Name of interpret(s) to get.
+   * @return A possibly empty, but not <code>null</code> list of song primary keys.
+   */
   public ArrayList<Long> getByName(String name)
   {
     Connection connection=getConnection();

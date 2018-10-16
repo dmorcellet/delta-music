@@ -11,6 +11,10 @@ import delta.music.Album;
 import delta.music.Interpret;
 import delta.music.MusicDataSource;
 
+/**
+ * Builder for the 'interpret' HTML page.
+ * @author DAM
+ */
 public class InterpretPage extends WebPage
 {
   private long _key;
@@ -20,7 +24,7 @@ public class InterpretPage extends WebPage
   @Override
   public void parseParameters() throws Exception
   {
-    _key=ParameterFinder.getLongParameter(_request,"KEY",Long.valueOf(76));
+    _key=ParameterFinder.getLongParameter(_request,"KEY",Long.valueOf(76)).longValue();
   }
 
   @Override
@@ -28,8 +32,8 @@ public class InterpretPage extends WebPage
   {
     ObjectsManager<Interpret> dsInterpret=MusicDataSource.getInstance().getInterpretDataSource();
     ObjectsManager<Album> dsAlbum=MusicDataSource.getInstance().getAlbumDataSource();
-    _interpret=dsInterpret.load(_key);
-    _albums=dsAlbum.loadRelation(Album.ALBUMS_RELATION,_key);
+    _interpret=dsInterpret.load(Long.valueOf(_key));
+    _albums=dsAlbum.loadRelation(Album.ALBUMS_RELATION,Long.valueOf(_key));
   }
 
   @Override
@@ -51,7 +55,7 @@ public class InterpretPage extends WebPage
     {
       album=_albums.get(i);
       pw.print("<LI><A HREF=\"");
-      AlbumPageParameters albumPage=new AlbumPageParameters(album.getPrimaryKey());
+      AlbumPageParameters albumPage=new AlbumPageParameters(album.getPrimaryKey().longValue());
       pw.print(albumPage.build());
       pw.print("\">");
       pw.print(album.getTitle());

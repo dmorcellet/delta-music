@@ -13,6 +13,10 @@ import delta.common.utils.io.StreamTools;
 import delta.music.utils.MusicLoggers;
 import delta.music.web.MusicApplicationContext;
 
+/**
+ * Builder for the 'image' action.
+ * @author DAM
+ */
 public class ImagePage extends WebPage
 {
   private static final Logger _logger=MusicLoggers.getMusicLogger();

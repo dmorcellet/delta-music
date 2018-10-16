@@ -12,13 +12,24 @@ import delta.music.Interpret;
 import delta.music.MusicDataSource;
 import delta.music.Song;
 
+/**
+ * Parses .lp files to populate the music database.
+ * @author DAM
+ */
 public class LPFileParser
 {
+  /**
+   * Constructor.
+   */
   public LPFileParser()
   {
     // Nothing to do !!
   }
 
+  /**
+   * Parse the given file and populate the music database.
+   * @param pathName File to read.
+   */
   public void parseFile(File pathName)
   {
     MusicDataSource source=MusicDataSource.getInstance();
@@ -141,6 +152,10 @@ public class LPFileParser
     fp.terminate();
   }
 
+  /**
+   * Main method for this class.
+   * @param args Not used.
+   */
   public static void main(String[] args)
   {
     MusicDataSource.getInstance();

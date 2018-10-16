@@ -9,6 +9,10 @@ import delta.common.framework.web.WebPageTools;
 import delta.music.Interpret;
 import delta.music.MusicDataSource;
 
+/**
+ * Main page for the 'music' site.
+ * @author DAM
+ */
 public class MusicMainPage extends WebPage
 {
   private List<Interpret> _interprets;
@@ -30,7 +34,7 @@ public class MusicMainPage extends WebPage
     pw.print("Interprètes");
     pw.println("</H1>");
 
-    // Interprï¿½tes
+    // Interprets
     pw.println("<UL>");
     int nbInterpretes=_interprets.size();
     Interpret interpret=null;
@@ -38,7 +42,7 @@ public class MusicMainPage extends WebPage
     {
       interpret=_interprets.get(i);
       pw.print("<LI><A HREF=\"");
-      InterpretPageParameters interpretPage=new InterpretPageParameters(interpret.getPrimaryKey());
+      InterpretPageParameters interpretPage=new InterpretPageParameters(interpret.getPrimaryKey().longValue());
       pw.print(interpretPage.build());
       pw.print("\">");
       pw.print(interpret.getName());
