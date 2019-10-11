@@ -36,7 +36,7 @@ public class LPFileParser
     TextFileReader fp=new TextFileReader(pathName);
     fp.start();
 
-    String line_l=null;
+    String line=null;
 
     // Tokens
     String albumToken="#ALBUM(";
@@ -53,26 +53,26 @@ public class LPFileParser
     // Image
     String image=null;
 
-    while((line_l=fp.getNextLine())!=null)
+    while((line=fp.getNextLine())!=null)
     {
-      if (line_l.equals(begin)) break;
-      else if(line_l.startsWith(albumToken))
+      if (line.equals(begin)) break;
+      else if(line.startsWith(albumToken))
       {
-        StringTokenizer st=new StringTokenizer(line_l, "\"");
+        StringTokenizer st=new StringTokenizer(line, "\"");
         st.nextToken();
         lpTitle=st.nextToken();
         System.out.println("LP name ["+lpTitle+"]");
       }
-      else if(line_l.startsWith(interpreteToken))
+      else if(line.startsWith(interpreteToken))
       {
-        StringTokenizer st=new StringTokenizer(line_l, "\"");
+        StringTokenizer st=new StringTokenizer(line, "\"");
         st.nextToken();
         interpretName=st.nextToken();
         System.out.println("Interpret name ["+interpretName+"]");
       }
-      else if(line_l.startsWith(imageToken))
+      else if(line.startsWith(imageToken))
       {
-        StringTokenizer st=new StringTokenizer(line_l, "\"");
+        StringTokenizer st=new StringTokenizer(line, "\"");
         st.nextToken();
         image=st.nextToken();
         System.out.println("Image ["+image+"]");
@@ -104,47 +104,47 @@ public class LPFileParser
 
     // Songs
     String currentSong=null;
-    StringBuffer text_l=new StringBuffer();
+    StringBuffer text=new StringBuffer();
 
-    while((line_l=fp.getNextLine())!=null)
+    while((line=fp.getNextLine())!=null)
     {
-      if(line_l.equals(begin))
+      if(line.equals(begin))
       {
         currentSong=null;
-        text_l.setLength(0);
+        text.setLength(0);
       }
-      else if(line_l.startsWith(titreChanson))
+      else if(line.startsWith(titreChanson))
       {
-        StringTokenizer st=new StringTokenizer(line_l, "\"");
+        StringTokenizer st=new StringTokenizer(line, "\"");
         st.nextToken();
         currentSong=st.nextToken();
       }
-      else if(line_l.equals(end))
+      else if(line.equals(end))
       {
         if(currentSong!=null)
         {
           Song song=new Song(null);
           song.setName(currentSong);
-          song.setText(text_l.toString());
+          song.setText(text.toString());
           song.setAlbumProxy(new DataProxy<Album>(a.getPrimaryKey(),source.getAlbumDataSource()));
           source.getSongDataSource().create(song);
           currentSong=null;
-          text_l.setLength(0);
+          text.setLength(0);
         }
       }
-      else if(line_l.equals(imageToken))
+      else if(line.equals(imageToken))
       {
-        StringTokenizer st=new StringTokenizer(line_l, "\"");
+        StringTokenizer st=new StringTokenizer(line, "\"");
         st.nextToken();
         image=st.nextToken();
         System.out.println("LP image ["+image+"]");
       }
-      else if(!line_l.startsWith("#"))
+      else if(!line.startsWith("#"))
       {
         if(currentSong!=null)
         {
-          text_l.append(line_l);
-          text_l.append(EndOfLine.NATIVE_EOL);
+          text.append(line);
+          text.append(EndOfLine.NATIVE_EOL);
         }
       }
     }
