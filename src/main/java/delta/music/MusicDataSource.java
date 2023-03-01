@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 
 import delta.common.framework.objects.data.ObjectsManager;
 import delta.music.sql.MusicSqlDriver;
-import delta.music.utils.MusicLoggers;
 
 /**
  * Data source for the 'music' database.
@@ -12,7 +11,7 @@ import delta.music.utils.MusicLoggers;
  */
 public class MusicDataSource
 {
-  private static final Logger _logger=MusicLoggers.getMusicLogger();
+  private static final Logger lOGGER=Logger.getLogger(MusicDataSource.class);
 
   private ObjectsManager<Album> _albumDataSource;
   private ObjectsManager<Song> _songDataSource;
@@ -53,7 +52,7 @@ public class MusicDataSource
     }
     catch(Exception e)
     {
-      _logger.error("",e);
+      lOGGER.error("",e);
     }
   }
 

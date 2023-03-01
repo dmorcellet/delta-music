@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import delta.common.framework.web.WebPage;
 import delta.common.utils.ParameterFinder;
 import delta.common.utils.io.StreamTools;
-import delta.music.utils.MusicLoggers;
 import delta.music.web.MusicApplicationContext;
 
 /**
@@ -19,7 +18,7 @@ import delta.music.web.MusicApplicationContext;
  */
 public class ImagePage extends WebPage
 {
-  private static final Logger _logger=MusicLoggers.getMusicLogger();
+  private static final Logger LOGGER=Logger.getLogger(ImagePage.class);
 
   private String _image;
 
@@ -59,7 +58,7 @@ public class ImagePage extends WebPage
     }
     catch(IOException e)
     {
-      _logger.error("",e);
+      LOGGER.error("",e);
     }
     finally
     {

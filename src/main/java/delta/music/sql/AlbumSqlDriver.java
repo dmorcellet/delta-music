@@ -17,7 +17,6 @@ import delta.common.utils.jdbc.CleanupManager;
 import delta.music.Album;
 import delta.music.Interpret;
 import delta.music.MusicDataSource;
-import delta.music.utils.MusicLoggers;
 
 /**
  * SQL driver for albums.
@@ -25,7 +24,7 @@ import delta.music.utils.MusicLoggers;
  */
 public class AlbumSqlDriver extends ObjectSqlDriver<Album>
 {
-  private static final Logger _logger=MusicLoggers.getMusicSqlLogger();
+  private static final Logger LOGGER=Logger.getLogger(AlbumSqlDriver.class);
 
   private PreparedStatement _psGetByPrimaryKey;
   private PreparedStatement _psGetAll;
@@ -60,7 +59,7 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
     }
     catch (SQLException sqlException)
     {
-      _logger.error("Exception while building prepared statements.",sqlException);
+      LOGGER.error("Exception while building prepared statements.",sqlException);
     }
   }
 
@@ -102,7 +101,7 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
       }
       catch (SQLException sqlException)
       {
-        _logger.error("",sqlException);
+        LOGGER.error("",sqlException);
         CleanupManager.cleanup(_psGetAll);
       }
       finally
@@ -133,7 +132,7 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
       }
       catch (SQLException sqlException)
       {
-        _logger.error("",sqlException);
+        LOGGER.error("",sqlException);
         CleanupManager.cleanup(_psGetByPrimaryKey);
       }
       finally
@@ -181,7 +180,7 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
       }
       catch (SQLException sqlException)
       {
-        _logger.error("",sqlException);
+        LOGGER.error("",sqlException);
         CleanupManager.cleanup(_psGetByPrimaryKey);
       }
     }
@@ -213,7 +212,7 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
       }
       catch (SQLException sqlException)
       {
-        _logger.error("",sqlException);
+        LOGGER.error("",sqlException);
         CleanupManager.cleanup(_psGetFromInterpret);
       }
       finally

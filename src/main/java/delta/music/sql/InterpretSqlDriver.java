@@ -15,7 +15,6 @@ import delta.common.framework.objects.sql.ObjectSqlDriver;
 import delta.common.utils.jdbc.CleanupManager;
 import delta.music.Interpret;
 import delta.music.MusicDataSource;
-import delta.music.utils.MusicLoggers;
 
 /**
  * SQL driver for interprets.
@@ -23,7 +22,7 @@ import delta.music.utils.MusicLoggers;
  */
 public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
 {
-  private static final Logger _logger=MusicLoggers.getMusicSqlLogger();
+  private static final Logger LOGGER=Logger.getLogger(InterpretSqlDriver.class);
 
   private PreparedStatement _psGetByPrimaryKey;
   private PreparedStatement _psGetAll;
@@ -58,7 +57,7 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
     }
     catch (SQLException sqlException)
     {
-      _logger.error("Exception while building prepared statements.",sqlException);
+      LOGGER.error("Exception while building prepared statements.",sqlException);
     }
   }
 
@@ -90,7 +89,7 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
       }
       catch (SQLException sqlException)
       {
-        _logger.error("",sqlException);
+        LOGGER.error("",sqlException);
         CleanupManager.cleanup(_psGetAll);
       }
       finally
@@ -121,7 +120,7 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
       }
       catch (SQLException sqlException)
       {
-        _logger.error("",sqlException);
+        LOGGER.error("",sqlException);
         CleanupManager.cleanup(_psGetByPrimaryKey);
       }
       finally
@@ -157,7 +156,7 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
       }
       catch (SQLException sqlException)
       {
-        _logger.error("",sqlException);
+        LOGGER.error("",sqlException);
         CleanupManager.cleanup(_psGetByPrimaryKey);
       }
     }
@@ -186,7 +185,7 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
       }
       catch (SQLException sqlException)
       {
-        _logger.error("",sqlException);
+        LOGGER.error("",sqlException);
         CleanupManager.cleanup(_psGetByName);
       }
       finally

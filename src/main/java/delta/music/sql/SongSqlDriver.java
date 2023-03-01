@@ -17,7 +17,6 @@ import delta.common.utils.jdbc.CleanupManager;
 import delta.music.Album;
 import delta.music.MusicDataSource;
 import delta.music.Song;
-import delta.music.utils.MusicLoggers;
 
 /**
  * SQL driver for songs.
@@ -25,7 +24,7 @@ import delta.music.utils.MusicLoggers;
  */
 public class SongSqlDriver extends ObjectSqlDriver<Song>
 {
-  private static final Logger _logger=MusicLoggers.getMusicSqlLogger();
+  private static final Logger LOGGER=Logger.getLogger(SongSqlDriver.class);
 
   private PreparedStatement _psGetByPrimaryKey;
   private PreparedStatement _psGetAll;
@@ -60,7 +59,7 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
     }
     catch (SQLException sqlException)
     {
-      _logger.error("Exception while building prepared statements.",sqlException);
+      LOGGER.error("Exception while building prepared statements.",sqlException);
     }
   }
 
@@ -103,7 +102,7 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
       }
       catch (SQLException sqlException)
       {
-        _logger.error("",sqlException);
+        LOGGER.error("",sqlException);
         CleanupManager.cleanup(_psGetAll);
       }
       finally
@@ -134,7 +133,7 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
       }
       catch (SQLException sqlException)
       {
-        _logger.error("",sqlException);
+        LOGGER.error("",sqlException);
         CleanupManager.cleanup(_psGetByPrimaryKey);
       }
       finally
@@ -176,7 +175,7 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
       }
       catch (SQLException sqlException)
       {
-        _logger.error("",sqlException);
+        LOGGER.error("",sqlException);
         CleanupManager.cleanup(_psGetByPrimaryKey);
       }
     }
@@ -208,7 +207,7 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
       }
       catch (SQLException sqlException)
       {
-        _logger.error("",sqlException);
+        LOGGER.error("",sqlException);
         CleanupManager.cleanup(_psGetFromAlbum);
       }
       finally
