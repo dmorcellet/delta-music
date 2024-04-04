@@ -3,6 +3,7 @@ package delta.music.web.pages;
 import java.io.PrintWriter;
 
 import delta.common.framework.objects.data.ObjectsManager;
+import delta.common.framework.web.PageParameters;
 import delta.common.framework.web.WebPage;
 import delta.common.framework.web.WebPageTools;
 import delta.common.utils.ParameterFinder;
@@ -18,6 +19,7 @@ import delta.music.Song;
  */
 public class SongPage extends WebPage
 {
+  private static final String SEPARATOR=" :: ";
   private long _key;
   private Album _album;
   private Interpret _interpret;
@@ -51,29 +53,31 @@ public class SongPage extends WebPage
     text=text.replaceAll(EndOfLine.UNIX.getValue(), "<BR>"+EndOfLine.NATIVE_EOL);
     pw.print(text);
     pw.println("<HR>");
-    pw.print("<A HREF=\"");
     MusicMainPageParameters mmPage=new MusicMainPageParameters();
-    pw.print(mmPage.build());
-    pw.print("\">Paroles</A> :: ");
+    printLink(pw,mmPage,"Paroles");
+    pw.print(SEPARATOR);
     if (_interpret!=null)
     {
-      pw.print("<A HREF=\"");
       InterpretPageParameters interpretPage=new InterpretPageParameters(_interpret.getPrimaryKey().longValue());
-      pw.print(interpretPage.build());
-      pw.print("\">");
-      pw.print(_interpret.getName());
-      pw.print("</A> :: ");
+      printLink(pw,interpretPage,_interpret.getName());
+      pw.print(SEPARATOR);
     }
-    pw.print("<A HREF=\"");
     if (_album!=null)
     {
       AlbumPageParameters albumPage=new AlbumPageParameters(_album.getPrimaryKey().longValue());
-      pw.print(albumPage.build());
-      pw.print("\">");
-      pw.print(_album.getTitle());
-      pw.print("</A> :: ");
+      printLink(pw,albumPage,_album.getTitle());
+      pw.print(SEPARATOR);
     }
     pw.println(_song.getName());
     WebPageTools.generatePageFooter(pw);
+  }
+
+  private void printLink(PrintWriter pw, PageParameters parameters, String label)
+  {
+    pw.print("<A HREF=\"");
+    pw.print(parameters.build());
+    pw.print("\">");
+    pw.print(label);
+    pw.print("</A>");
   }
 }

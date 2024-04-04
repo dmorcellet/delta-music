@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 import delta.common.framework.objects.sql.ObjectSqlDriver;
 import delta.common.utils.jdbc.CleanupManager;
 import delta.music.Interpret;
-import delta.music.MusicDataSource;
 
 /**
  * SQL driver for interprets.
@@ -28,15 +27,13 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
   private PreparedStatement _psGetAll;
   private PreparedStatement _psInsert;
   private PreparedStatement _psGetByName;
-  //private MusicDataSource _mainDataSource;
 
   /**
    * Constructor.
-   * @param mainDataSource Parent data source.
    */
-  InterpretSqlDriver(MusicDataSource mainDataSource)
+  InterpretSqlDriver()
   {
-    //_mainDataSource=mainDataSource;
+    // Nothing!
   }
 
   @Override
@@ -145,7 +142,6 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
         else _psInsert.setLong(n,key.longValue());
         n++;
         _psInsert.setString(n,interpret.getName());
-        n++;
         _psInsert.executeUpdate();
         ResultSet rs=_psInsert.getGeneratedKeys();
         if (rs.next())
@@ -167,7 +163,7 @@ public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
    * @param name Name of interpret(s) to get.
    * @return A possibly empty, but not <code>null</code> list of song primary keys.
    */
-  public ArrayList<Long> getByName(String name)
+  public List<Long> getByName(String name)
   {
     Connection connection=getConnection();
     synchronized (connection)

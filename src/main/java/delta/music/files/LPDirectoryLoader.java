@@ -15,11 +15,12 @@ import delta.music.MusicDataSource;
 public class LPDirectoryLoader extends AbstractFileIteratorCallback
 {
   /**
-   * Constructor.
+   * Handle a LP directory.
+   * @param rootDir Directory to use.
    */
-  public LPDirectoryLoader()
+  public void doIt(File rootDir)
   {
-    FileIterator it=new FileIterator(new File("d:\\dada\\export\\musique\\src\\lp"), false, this);
+    FileIterator it=new FileIterator(rootDir, false, this);
     it.run();
   }
 
@@ -41,7 +42,9 @@ public class LPDirectoryLoader extends AbstractFileIteratorCallback
   public static void main(String[] args)
   {
     MusicDataSource.getInstance();
-    new LPDirectoryLoader();
+    LPDirectoryLoader loader=new LPDirectoryLoader();
+    File rootDir=new File("d:\\dada\\export\\musique\\src\\lp");
+    loader.doIt(rootDir);
     MusicDataSource.getInstance().close();
   }
 }

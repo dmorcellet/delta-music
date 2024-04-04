@@ -77,7 +77,6 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
     song.setName(rs.getString(n));
     n++;
     song.setText(rs.getString(n));
-    n++;
   }
 
   @Override
@@ -164,7 +163,6 @@ public class SongSqlDriver extends ObjectSqlDriver<Song>
         _psInsert.setString(n,song.getName());
         n++;
         _psInsert.setString(n,song.getText());
-        n++;
         _psInsert.executeUpdate();
         ResultSet rs=_psInsert.getGeneratedKeys();
         if (rs.next())

@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import delta.common.utils.NumericTools;
 import delta.common.utils.files.TextFileReader;
 import delta.common.utils.files.iterator.AbstractFileIteratorCallback;
@@ -16,10 +18,12 @@ import delta.common.utils.files.iterator.FileIteratorCallback;
  */
 public class CDDBFileReader
 {
+  private static final Logger LOGGER=Logger.getLogger(CDDBFileReader.class);
+
   private static final String TRACK_FRAME_OFFSETS="# Track frame offsets:";
   private static final String DISCID="DISCID=";
   private static final String DTITLE="DTITLE=";
-  //private static final String DYEAR="DYEAR=";
+  // Could use DYEAR= too
   private static final String TTITLE="TTITLE";
   private static final String PLAYORDER="PLAYORDER";
 
@@ -42,69 +46,89 @@ public class CDDBFileReader
     TextFileReader fp=new TextFileReader(_f);
     if (fp.start())
     {
-      String line=null;
-      String tmp;
-      String discId="",discTitle="";
+      int nb=0;
       while(true)
       {
-        line=fp.getNextLine();
+        String line=fp.getNextLine();
         if (line==null) break;
         if (line.startsWith(TRACK_FRAME_OFFSETS))
         {
           // Track offsets
-          List<Integer> trackOffsets=new ArrayList<Integer>();
-          while (true)
-          {
-            line=fp.getNextLine();
-            if (line==null) break;
-            if (line.length()==0) break;
-            if (line.charAt(0)=='#')
-            {
-              int firstNonBlanck=1;
-              int longueur=line.length();
-              while ((firstNonBlanck<longueur) && ((line.charAt(firstNonBlanck)==' ') || (line.charAt(firstNonBlanck)=='\t')))
-                firstNonBlanck++;
-              if (firstNonBlanck<longueur)
-              {
-                tmp=line.substring(firstNonBlanck).trim();
-                int offset=NumericTools.parseInt(tmp,-1);
-                if (offset!=-1)
-                  trackOffsets.add(Integer.valueOf(offset));
-                else break;
-              }
-            }
-          }
-
+          readTrackOffsets(fp);
           // Disk ID & title & track titles
-          List<String> trackTitles=new ArrayList<String>(trackOffsets.size());
-          while (true)
+          CDInfo cd=readTracks(fp);
+          String discTitle=cd.getDiscTitle();
+          if ((discTitle.indexOf("Pink Floyd")!=-1)&&(discTitle.indexOf("Ummagumma")!=-1))
           {
-            line=fp.getNextLine();
-            if (line==null) break;
-            if (line.startsWith("#")) continue;
-            if (line.startsWith(PLAYORDER)) break;
-            if (line.startsWith(DISCID)) discId=line.substring(DISCID.length()).trim();
-            if (line.startsWith(DTITLE)) discTitle=line.substring(DTITLE.length()).trim();
-            if (line.startsWith(TTITLE))
-            {
-              int indexOfEgal=line.indexOf('=');
-              if (indexOfEgal!=-1)
-                trackTitles.add(line.substring(indexOfEgal+1).trim());
-            }
+            LOGGER.info("ID="+cd.getDiscID());
+            LOGGER.info("Disc title="+discTitle);
+            LOGGER.info("NB tracks = "+cd.getTracksCount());
+            LOGGER.info("Tracks titles = "+cd.getTrackTitles());
           }
-          if ((discTitle.indexOf("Pink Floyd")!=-1)
-              && (discTitle.indexOf("Ummagumma")!=-1))
-          {
-            System.out.println("ID="+discId);
-            System.out.println("Disc title="+discTitle);
-            System.out.println("NB tracks = "+trackOffsets.size());
-            System.out.println("Tracks titles = "+trackTitles);
-          }
+          nb++;
         }
       }
       fp.terminate();
+      LOGGER.info("Nb albums dans fichiers : "+nb);
     }
-    //System.out.println("Nb albums dans fichiers : "+nb);
+  }
+
+  private void readTrackOffsets(TextFileReader fp)
+  {
+    List<Integer> trackOffsets=new ArrayList<Integer>();
+    while (true)
+    {
+      String line=fp.getNextLine();
+      if (line==null) break;
+      if (line.length()==0) break;
+      if (line.charAt(0)=='#')
+      {
+        String offsetStr=line.substring(1).trim();
+        int offset=NumericTools.parseInt(offsetStr,-1);
+        trackOffsets.add(Integer.valueOf(offset));
+      }
+    }
+  }
+
+  private CDInfo readTracks(TextFileReader fp)
+  {
+    CDInfo ret=new CDInfo();
+    while (true) // NOSONAR
+    {
+      String line=fp.getNextLine();
+      if (line==null)
+      {
+        break;
+      }
+      if (line.startsWith("#"))
+      {
+        continue;
+      }
+      if (line.startsWith(PLAYORDER))
+      {
+        break;
+      }
+      if (line.startsWith(DISCID))
+      {
+        String discId=line.substring(DISCID.length()).trim();
+        ret.setDiscID(discId);
+      }
+      else if (line.startsWith(DTITLE))
+      {
+        String discTitle=line.substring(DTITLE.length()).trim();
+        ret.setDiscTitle(discTitle);
+      }
+      else if (line.startsWith(TTITLE))
+      {
+        int indexOfEgal=line.indexOf('=');
+        if (indexOfEgal!=-1)
+        {
+          String trackTitle=line.substring(indexOfEgal+1).trim();
+          ret.addTrackTitle(trackTitle);
+        }
+      }
+    }
+    return ret;
   }
 
   /**

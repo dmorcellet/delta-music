@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.apache.log4j.Logger;
+
 import delta.common.framework.objects.data.DataProxy;
 import delta.common.utils.files.TextFileReader;
 import delta.common.utils.text.EndOfLine;
@@ -18,6 +20,8 @@ import delta.music.Song;
  */
 public class LPFileParser
 {
+  private static final Logger LOGGER=Logger.getLogger(LPFileParser.class);
+
   /**
    * Constructor.
    */
@@ -61,21 +65,21 @@ public class LPFileParser
         StringTokenizer st=new StringTokenizer(line, "\"");
         st.nextToken();
         lpTitle=st.nextToken();
-        System.out.println("LP name ["+lpTitle+"]");
+        LOGGER.debug("LP name ["+lpTitle+"]");
       }
       else if(line.startsWith(interpreteToken))
       {
         StringTokenizer st=new StringTokenizer(line, "\"");
         st.nextToken();
         interpretName=st.nextToken();
-        System.out.println("Interpret name ["+interpretName+"]");
+        LOGGER.debug("Interpret name ["+interpretName+"]");
       }
       else if(line.startsWith(imageToken))
       {
         StringTokenizer st=new StringTokenizer(line, "\"");
         st.nextToken();
         image=st.nextToken();
-        System.out.println("Image ["+image+"]");
+        LOGGER.debug("Image ["+image+"]");
       }
     }
     if (lpTitle==null)
@@ -87,7 +91,7 @@ public class LPFileParser
     Album a=new Album(null);
     a.setTitle(lpTitle);
     List<Interpret> iList=source.getInterpretDataSource().loadObjectSet(Interpret.NAME_SET,new Object[]{interpretName});
-    if ((iList!=null) && (iList.size()>0))
+    if ((iList!=null) && (!iList.isEmpty()))
     {
       Interpret interpret=iList.get(0);
       a.setInterpretProxy(new DataProxy<Interpret>(interpret.getPrimaryKey(),source.getInterpretDataSource()));
@@ -104,7 +108,7 @@ public class LPFileParser
 
     // Songs
     String currentSong=null;
-    StringBuffer text=new StringBuffer();
+    StringBuilder text=new StringBuilder();
 
     while((line=fp.getNextLine())!=null)
     {
@@ -137,7 +141,7 @@ public class LPFileParser
         StringTokenizer st=new StringTokenizer(line, "\"");
         st.nextToken();
         image=st.nextToken();
-        System.out.println("LP image ["+image+"]");
+        LOGGER.debug("LP image ["+image+"]");
       }
       else if(!line.startsWith("#"))
       {

@@ -64,7 +64,7 @@ public class MusicSqlDriver
     DatabaseType dbType=DatabaseType.MYSQL;
     _albumDriver=new AlbumSqlDriver(mainDataSource);
     _albumDriver.setConnection(_dbConnection,dbType);
-    _interpretDriver=new InterpretSqlDriver(mainDataSource);
+    _interpretDriver=new InterpretSqlDriver();
     _interpretDriver.setConnection(_dbConnection,dbType);
     _songDriver=new SongSqlDriver(mainDataSource);
     _songDriver.setConnection(_dbConnection,dbType);

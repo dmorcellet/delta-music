@@ -77,7 +77,6 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
       interpretProxy=new DataProxy<Interpret>(Long.valueOf(interpretKey),_mainDataSource.getInterpretDataSource());
     }
     album.setInterpretProxy(interpretProxy);
-    n++;
   }
 
   @Override
@@ -169,7 +168,6 @@ public class AlbumSqlDriver extends ObjectSqlDriver<Album>
         {
           _psInsert.setNull(n,Types.INTEGER);
         }
-        n++;
         _psInsert.executeUpdate();
         ResultSet rs=_psInsert.getGeneratedKeys();
         if (rs.next())
