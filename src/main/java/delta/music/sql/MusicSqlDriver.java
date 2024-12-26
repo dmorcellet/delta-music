@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.framework.objects.sql.DatabaseType;
 import delta.music.MusicDataSource;
@@ -15,7 +16,7 @@ import delta.music.MusicDataSource;
  */
 public class MusicSqlDriver
 {
-  private static final Logger LOGGER=Logger.getLogger(MusicSqlDriver.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(MusicSqlDriver.class);
 
   private Connection _dbConnection;
   private AlbumSqlDriver _albumDriver;

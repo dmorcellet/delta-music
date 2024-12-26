@@ -5,7 +5,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.framework.web.WebPage;
 import delta.common.utils.ParameterFinder;
@@ -18,7 +19,7 @@ import delta.music.web.MusicApplicationContext;
  */
 public class ImagePage extends WebPage
 {
-  private static final Logger LOGGER=Logger.getLogger(ImagePage.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(ImagePage.class);
 
   private String _image;
 

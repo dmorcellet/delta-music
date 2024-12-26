@@ -1,6 +1,7 @@
 package delta.music;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.framework.objects.data.ObjectsManager;
 import delta.music.sql.MusicSqlDriver;
@@ -11,7 +12,7 @@ import delta.music.sql.MusicSqlDriver;
  */
 public class MusicDataSource
 {
-  private static final Logger lOGGER=Logger.getLogger(MusicDataSource.class);
+  private static final Logger lOGGER=LoggerFactory.getLogger(MusicDataSource.class);
 
   private ObjectsManager<Album> _albumDataSource;
   private ObjectsManager<Song> _songDataSource;

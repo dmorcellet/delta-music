@@ -9,7 +9,8 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.framework.objects.sql.ObjectSqlDriver;
 import delta.common.utils.jdbc.CleanupManager;
@@ -21,7 +22,7 @@ import delta.music.Interpret;
  */
 public class InterpretSqlDriver extends ObjectSqlDriver<Interpret>
 {
-  private static final Logger LOGGER=Logger.getLogger(InterpretSqlDriver.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(InterpretSqlDriver.class);
 
   private PreparedStatement _psGetByPrimaryKey;
   private PreparedStatement _psGetAll;

@@ -4,7 +4,8 @@ import java.io.File;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import delta.common.framework.objects.data.DataProxy;
 import delta.common.utils.files.TextFileReader;
@@ -20,7 +21,7 @@ import delta.music.Song;
  */
 public class LPFileParser
 {
-  private static final Logger LOGGER=Logger.getLogger(LPFileParser.class);
+  private static final Logger LOGGER=LoggerFactory.getLogger(LPFileParser.class);
 
   /**
    * Constructor.
